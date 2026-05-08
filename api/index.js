@@ -1,6 +1,10 @@
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env'), override: true });
-console.log('DEBUG: process.env.MONGODB_URI =', process.env.MONGODB_URI);
+// Only load dotenv in non-production environments
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.join(__dirname, '..', '.env'), override: true });
+}
+
+console.log('DEBUG: process.env.MONGODB_URI =', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -40,7 +44,7 @@ const connectDB = async () => {
   }
 
   try {
-    console.log(`⏳ Connecting to MongoDB at ${MONGODB_URI}...`);
+    console.log(`⏳ Connecting to MongoDB...`);
     mongoose.set('bufferCommands', false); // Disable buffering
     cachedConnection = await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 5000, // Fail after 5 seconds instead of 30
@@ -48,18 +52,15 @@ const connectDB = async () => {
     console.log('✅ Connected to MongoDB');
     return cachedConnection;
   } catch (err) {
-    console.error('❌ MongoDB connection error detail:', {
-      message: err.message,
-      code: err.code,
-      name: err.name,
-      stack: err.stack
-    });
+    console.error('❌ MongoDB connection error:', err.message);
     throw err;
   }
 };
 
-// Auto-connect
-connectDB().catch(err => console.error('Early DB connection failed:', err.message));
+// Initial connection for non-production
+if (process.env.NODE_ENV !== 'production') {
+  connectDB().catch(err => console.error('Early DB connection failed:', err.message));
+}
 
 app.use(cors());
 app.use(express.json());
@@ -73,17 +74,22 @@ app.use((req, res, next) => {
 // Middleware to ensure DB is connected before processing requests
 app.use(async (req, res, next) => {
   try {
-    // await connectDB();
+    await connectDB();
     next();
   } catch (err) {
     console.error('DATABASE_CONNECTION_ERROR:', err);
-    res.status(500).json({ error: 'Database connection failed.', details: err.message, state: mongoose.connection.readyState });
+    res.status(500).json({ error: 'Database connection failed.', details: err.message });
   }
 });
 
-const uploadDir = path.join(__dirname, 'uploads');
+// Use /tmp for uploads on Vercel/Production
+const uploadDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+  try {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  } catch (e) {
+    console.error('Error creating upload dir:', e.message);
+  }
 }
 
 app.use('/uploads', express.static(uploadDir));
