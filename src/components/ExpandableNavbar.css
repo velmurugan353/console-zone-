@@ -1,0 +1,106 @@
+:root {
+  --bg: #dde8f3;
+  --menu-bg: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.06);
+  --accent: #2563eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --radius: 16px;
+  --transition: 0.3s ease;
+}
+
+.expandable-nav-container {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  font-family: "Outfit", sans-serif;
+}
+
+.menu {
+  padding: 0.75rem;
+  background: var(--menu-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 10px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50px;
+  height: 44px;
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.link:hover,
+.link:focus-visible,
+.link.active {
+  width: 140px;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.link-icon {
+  font-family: "Material Symbols Rounded";
+  font-size: 24px;
+  margin-left: 13px;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.link:hover .link-icon {
+  transform: scale(1.1);
+}
+
+.link-title {
+  margin-left: 10px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity var(--transition), transform var(--transition);
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.link:hover .link-title,
+.link:focus-visible .link-title,
+.link.active .link-title {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Badge for Cart */
+.nav-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #ef4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  height: 16px;
+  min-width: 16px;
+  padding: 0 4px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: opacity 0.2s;
+}
+
+.link:hover .nav-badge {
+  opacity: 0;
+}

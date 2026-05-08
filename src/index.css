@@ -1,0 +1,201 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-gaming-bg: var(--bg, #080112);
+  --color-gaming-card: var(--card, #0c021a);
+  --color-gaming-accent: var(--accent, #D866FF);
+  /* Bright Purple Glow */
+  --color-gaming-secondary: var(--secondary, #4D008C);
+  /* Dark Purple Ring */
+  --color-gaming-text: var(--text, #FFFFFF);
+  --color-gaming-muted: var(--muted, #BFBFBF);
+  --color-gaming-border: var(--border, #4D008C);
+
+  --color-royal-purple: #4D008C;
+  --color-neon-purple: #D866FF;
+
+  --font-sans: var(--font-body, "Inter", ui-sans-serif, system-ui, sans-serif);
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  
+  /* Standard Variables from Customizer */
+  --bg: #080112;
+  --card: #0c021a;
+  --accent: #D866FF;
+  --secondary: #4D008C;
+  --text: #FFFFFF;
+  --muted: #BFBFBF;
+  --border: #4D008C;
+
+  /* RGB Helpers for Tailwind Opacity */
+  --accent-rgb: 216, 102, 255;
+  --secondary-rgb: 77, 0, 140;
+}
+
+body {
+  background-color: var(--color-gaming-bg);
+  color: var(--color-gaming-text);
+  font-family: var(--font-body, var(--font-sans));
+  overflow-x: hidden;
+  transition: all var(--layout-transition, 0.3s) ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading, var(--font-sans));
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gaming-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gaming-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gaming-accent);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(216, 102, 255, 0.5), 0 0 20px rgba(198, 59, 255, 0.3);
+}
+
+.neon-border {
+  box-shadow: 0 0 10px rgba(216, 102, 255, 0.2), 0 0 20px rgba(198, 59, 255, 0.1);
+}
+
+.purple-glow {
+  box-shadow: 0 0 20px rgba(77, 0, 140, 0.4), 0 0 40px rgba(216, 102, 255, 0.2);
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Admin Layout Zoom Fixes */
+.admin-layout {
+  /* Increase brightness of muted/gray text for better contrast at 85% zoom */
+  .text-gray-400 {
+    color: #cbd5e1 !important; /* gray-300 */
+  }
+  .text-gray-500 {
+    color: #e2e8f0 !important; /* gray-200 */
+  }
+  .text-gray-600 {
+    color: #f1f5f9 !important; /* gray-100 */
+  }
+  .text-gaming-muted {
+    color: #cbd5e1 !important;
+  }
+
+  /* Slightly boost ultra-small fonts to remain readable */
+  .text-\[10px\], .text-xs {
+    font-size: 12.5px !important;
+  }
+  .text-\[9px\] {
+    font-size: 11.5px !important;
+  }
+  .text-\[8px\] {
+    font-size: 10.5px !important;
+  }
+
+  /* Improve mono labels contrast and readability */
+  .font-mono {
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    filter: brightness(1.2);
+  }
+
+  /* Boost icon visibility slightly */
+  svg {
+    stroke-width: 2.5;
+  }
+}
+
+/* Invoice Modal Responsive Scaling */
+.invoice-modal > div {
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 850px) {
+  .invoice-modal > div {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .invoice-modal > div {
+    transform: scale(0.85);
+  }
+}
+
+@media (max-width: 640px) {
+  .invoice-modal > div {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 480px) {
+  .invoice-modal > div {
+    transform: scale(0.45);
+    margin-top: -20%;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .invoice-modal, .invoice-modal * {
+    visibility: visible;
+  }
+  .invoice-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #invoice-content {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}

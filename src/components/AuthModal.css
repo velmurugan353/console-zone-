@@ -1,0 +1,297 @@
+/* Scoped CSS specific to Auth modal to map to provided logic */
+.auth-wrapper {
+  /* Provide basic font settings globally inside wrapper */
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
+.auth-wrapper .container {
+  position: relative;
+  width: 750px;
+  height: 600px;
+  border: 2px solid var(--color-gaming-accent);
+  box-shadow: 0 0 25px var(--color-gaming-accent);
+  overflow: hidden;
+  border-radius: 12px;
+  background: #080112;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .auth-wrapper .container {
+    width: 100%;
+    height: auto;
+    min-height: 500px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .auth-wrapper .info-content {
+    display: none !important;
+  }
+
+  .auth-wrapper .form-box {
+    width: 100% !important;
+    padding: 40px 30px !important;
+    position: relative !important;
+  }
+
+  .auth-wrapper .form-box.Register {
+    display: none;
+  }
+
+  .auth-wrapper .container.active .form-box.Login {
+    display: none;
+  }
+
+  .auth-wrapper .container.active .form-box.Register {
+    display: flex;
+    right: 0;
+  }
+
+  .auth-wrapper .curved-shape,
+  .auth-wrapper .curved-shape2 {
+    display: none;
+  }
+}
+
+.auth-wrapper .form-box {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.auth-wrapper .form-box.Login {
+  left: 0;
+  padding: 0 40px;
+}
+
+.auth-wrapper .form-box.Login .animation {
+  transform: translateX(0%);
+  transition: .7s;
+  opacity: 1;
+  transition-delay: calc(.1s * var(--S));
+}
+
+.auth-wrapper .container.active .form-box.Login .animation {
+  transform: translateX(-120%);
+  opacity: 0;
+  transition-delay: calc(.1s * var(--D));
+}
+
+.auth-wrapper .form-box.Register {
+  right: 0;
+  padding: 0 60px;
+}
+
+.auth-wrapper .form-box.Register .animation {
+  transform: translateX(120%);
+  transition: .7s ease;
+  opacity: 0;
+  filter: blur(10px);
+  transition-delay: calc(.1s * var(--S));
+}
+
+.auth-wrapper .container.active .form-box.Register .animation {
+  transform: translateX(0%);
+  opacity: 1;
+  filter: blur(0px);
+  transition-delay: calc(.1s * var(--li));
+}
+
+.auth-wrapper .form-box h2 {
+  font-size: 32px;
+  text-align: center;
+}
+
+.auth-wrapper .form-box .input-box {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+}
+
+.auth-wrapper .input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid #fff;
+  padding-right: 23px;
+  transition: .5s;
+}
+
+.auth-wrapper .input-box input:focus,
+.auth-wrapper .input-box input:valid {
+  border-bottom: 2px solid var(--color-gaming-accent);
+}
+
+.auth-wrapper .input-box label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #fff;
+  transition: .5s;
+  pointer-events: none;
+}
+
+.auth-wrapper .input-box input:focus~label,
+.auth-wrapper .input-box input:valid~label {
+  top: -5px;
+  color: var(--color-gaming-accent);
+}
+
+.auth-wrapper .input-box svg {
+  transition: .5s;
+}
+
+.auth-wrapper .input-box input:focus~svg,
+.auth-wrapper .input-box input:valid~svg {
+  color: var(--color-gaming-accent);
+}
+
+.auth-wrapper .auth-btn {
+  position: relative;
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid var(--color-gaming-accent);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.auth-wrapper .auth-btn::before {
+  content: "";
+  position: absolute;
+  height: 300%;
+  width: 100%;
+  background: linear-gradient(#080112, var(--color-gaming-accent), #080112, var(--color-gaming-accent));
+  top: -100%;
+  left: 0;
+  z-index: -1;
+  transition: .5s;
+}
+
+.auth-wrapper .auth-btn:hover:before {
+  top: 0;
+}
+
+.auth-wrapper .regi-link {
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0 0px;
+}
+
+.auth-wrapper .info-content {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.auth-wrapper .info-content.Login {
+  right: 0;
+  text-align: right;
+  padding: 0 40px 60px 150px;
+}
+
+.auth-wrapper .info-content.Login .animation {
+  transform: translateX(0);
+  transition: .7s ease;
+  transition-delay: calc(.1s * var(--S));
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.auth-wrapper .container.active .info-content.Login .animation {
+  transform: translateX(120%);
+  opacity: 0;
+  filter: blur(10px);
+  transition-delay: calc(.1s * var(--D));
+}
+
+.auth-wrapper .info-content.Register {
+  left: 0;
+  text-align: left;
+  padding: 0 150px 60px 38px;
+  pointer-events: none;
+}
+
+.auth-wrapper .info-content.Register .animation {
+  transform: translateX(-120%);
+  transition: .7s ease;
+  opacity: 0;
+  filter: blur(10px);
+  transition-delay: calc(.1s * var(--S));
+}
+
+.auth-wrapper .container.active .info-content.Register .animation {
+  transform: translateX(0%);
+  opacity: 1;
+  filter: blur(0);
+  transition-delay: calc(.1s * var(--li));
+}
+
+.auth-wrapper .info-content h2 {
+  text-transform: uppercase;
+  font-size: 36px;
+  line-height: 1.3;
+}
+
+.auth-wrapper .info-content p {
+  font-size: 16px;
+}
+
+.auth-wrapper .container .curved-shape {
+  position: absolute;
+  right: 0;
+  top: -5px;
+  height: 700px;
+  width: 850px;
+  background: linear-gradient(45deg, #080112, var(--color-gaming-accent));
+  transform: rotate(10deg) skewY(40deg);
+  transform-origin: bottom right;
+  transition: 1.5s ease;
+  transition-delay: 1.6s;
+}
+
+.auth-wrapper .container.active .curved-shape {
+  transform: rotate(0deg) skewY(0deg);
+  transition-delay: .5s;
+}
+
+.auth-wrapper .container .curved-shape2 {
+  position: absolute;
+  left: 250px;
+  top: 100%;
+  height: 700px;
+  width: 850px;
+  background: #080112;
+  border-top: 3px solid var(--color-gaming-accent);
+  transform: rotate(0deg) skewY(0deg);
+  transform-origin: bottom left;
+  transition: 1.5s ease;
+  transition-delay: .5s;
+}
+
+.auth-wrapper .container.active .curved-shape2 {
+  transform: rotate(-11deg) skewY(-41deg);
+  transition-delay: 1.2s;
+}
